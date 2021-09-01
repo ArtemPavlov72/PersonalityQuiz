@@ -44,7 +44,6 @@ class QuestionsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let answers = segue.destination as? ResultViewController else {return}
         answers.resultAnswers = answersChosen
-            .sorted { $0.animal.rawValue > $1.animal.rawValue}
     }
     
     @IBAction func singleAnswerButtonPressed(_ sender: UIButton) {

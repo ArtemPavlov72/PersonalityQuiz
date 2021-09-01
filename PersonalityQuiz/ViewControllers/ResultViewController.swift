@@ -12,28 +12,44 @@ class ResultViewController: UIViewController {
     @IBOutlet var resultAnimal: UILabel!
     @IBOutlet var resultText: UILabel!
     
-    
     var resultAnswers: [Answer] = []
     
-    // 1. Передать сюда массив с ответами +
-    // 2. Определить наиболее часто встречающийся тип животного
-    // 3. Отобразить результат в соответствии с этим животным
-    // 4. Избавиться от кнопки возврата на предыдущий экран +
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.setHidesBackButton(true, animated: false)
         
-        resultText.text = "\(resultAnswers)" // ответы переданы
-        
         var animalInAnswers = [String]()
-        for (index, element) in resultAnswers.enumerated() {
-            print("\(index) следом \(element)\n")
-            animalInAnswers.append("\(element)")
-    }
         
-        print("тото \(animalInAnswers)")
+        resultText.text = "\(resultAnswers)"
+       
+        // MARK: - Filtering your Animal
+        for (_, element) in resultAnswers.enumerated() {
+            print("\(element.animal)\n")
+            animalInAnswers.append("\(element.animal)")
+        }
+        
+        let yourAnimal = animalInAnswers.reduce([String: Int]()) {
+            var counts = $0
+            counts[$1] = ($0[$1] ?? 0) + 1
+            return counts
+        }
+        .max { $0.1 < $1.1 }?.0
+    
+        // MARK: - Choosing Animal
+        if yourAnimal == "dog" {
+            resultAnimal.text = "Вы - \(Animal.dog.rawValue)"
+            resultText.text = "\(Animal.dog.definition)"
+        } else if yourAnimal == "cat" {
+            resultAnimal.text = "Вы - \(Animal.cat.rawValue)"
+            resultText.text = "\(Animal.cat.definition)"
+        } else if yourAnimal == "rabbit" {
+            resultAnimal.text = "Вы - \(Animal.rabbit.rawValue)"
+            resultText.text = "\(Animal.rabbit.definition)"
+        } else {
+            resultAnimal.text = "Вы - \(Animal.turtle.rawValue)"
+            resultText.text = "\(Animal.turtle.definition)"
+        }
     }
 }
+
 
